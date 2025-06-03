@@ -6,386 +6,72 @@
     <title>PWA Iframe Proxy</title>
     
     <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#000000">
-    <meta name="description" content="PWA untuk menampilkan website lain">
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUFdBIElyYW1lIFByb3h5IiwKInNob3J0X25hbWUiOiJQV0EgUHJveHkiLAoiaWNvbnMiOiBbCiAgICB7CiAgICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MG5hSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY25JSGRwWkhSb1BTY3lOREJuSUdobGFXZG9kRDBuTWpRd0p6NEtJQ0E4Y21WamRDQjNhV1IwYUQwbk1qUXdKeUIzYVdkMGFEMG5NalF3SnlCbWFXeHNQU2NqTkRNMU5qVTNKeUF2UGdvZ0lEeDBaWGgwSUhnOUpURXlNQ0JoYm1Ob2IzSTlKbTFwWkdSc1pTY2dabWxzYkQwbkkzZG1abVptWmlkK1FWQlFQQzkwWlhoMFBnbzhMM04yWno0PSIsCiAgICAgICAgInNpemVzIjogIjI0MHgyNDAiLAogICAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9Cl0sCiJzdGFydF91cmwiOiAiLyIsCiJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAoiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKInRoZW1lX2NvbG9yIjogIiMwMDAwMDAiCn0=">
+    <meta name="theme-color" content="#007bff">
+    <meta name="description" content="PWA untuk menampilkan website lain dengan proxy">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="PWA Proxy">
+    <link rel="manifest" href="manifest.json">
     
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f5;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .controls {
-            background: #fff;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .url-input {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.2s;
-        }
-
-        .btn:hover {
-            background: #0056b3;
-        }
-
-        .btn.secondary {
-            background: #6c757d;
-        }
-
-        .btn.secondary:hover {
-            background: #545b62;
-        }
-
-        .loading {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            z-index: 2000;
-        }
-
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #fff;
-            border-top: 2px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .iframe-container {
-            position: fixed;
-            top: 60px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: white;
-        }
-
-        #proxyFrame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: white;
-        }
-
-        .error {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #f8d7da;
-            color: #721c24;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #f5c6cb;
-            max-width: 400px;
-            text-align: center;
-            display: none;
-        }
-
-        .proxy-selector {
-            display: flex;
-            gap: 5px;
-        }
-
-        .proxy-selector select {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        @media (max-width: 768px) {
-            .controls {
-                flex-wrap: wrap;
-                padding: 8px;
-            }
-            
-            .url-input {
-                width: 100%;
-                margin-bottom: 5px;
-            }
-            
-            .iframe-container {
-                top: 80px;
-            }
-        }
-    </style>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-192x192.png">
 </head>
 <body>
-    <div class="controls">
-        <input type="url" 
-               class="url-input" 
-               id="urlInput" 
-               placeholder="Masukkan URL website (contoh: https://example.com)"
-               value="">
-        
-        <div class="proxy-selector">
-            <select id="proxySelect">
-                <option value="allorigins">AllOrigins</option>
-                <option value="corsproxy">CORS Proxy</option>
-                <option value="thingproxy">ThingProxy</option>
-                <option value="crossorigin">CrossOrigin.me</option>
-            </select>
+    <div class="app-container">
+        <!-- Header Controls -->
+        <header class="controls">
+            <div class="url-section">
+                <input type="url" 
+                       class="url-input" 
+                       id="urlInput" 
+                       placeholder="Masukkan URL website (contoh: https://example.com)">
+            </div>
+            
+            <div class="control-buttons">
+                <div class="proxy-selector">
+                    <select id="proxySelect">
+                        <option value="allorigins">AllOrigins</option>
+                        <option value="corsproxy">CORS Proxy</option>
+                        <option value="thingproxy">ThingProxy</option>
+                        <option value="crossorigin">CrossOrigin.me</option>
+                    </select>
+                </div>
+                
+                <button class="btn primary" id="loadBtn">Muat</button>
+                <button class="btn secondary" id="fullscreenBtn">Fullscreen</button>
+                <button class="btn secondary" id="refreshBtn">Refresh</button>
+                <button class="btn secondary" id="demoBtn">Demo</button>
+            </div>
+        </header>
+
+        <!-- Loading Indicator -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <span>Memuat website...</span>
         </div>
-        
-        <button class="btn" onclick="loadWebsite()">Muat</button>
-        <button class="btn secondary" onclick="toggleFullscreen()">Fullscreen</button>
-        <button class="btn secondary" onclick="refreshFrame()">Refresh</button>
+
+        <!-- Error Message -->
+        <div class="error" id="error">
+            <div class="error-content">
+                <h3>Gagal Memuat Website</h3>
+                <p id="errorMessage">Website tidak dapat dimuat. Coba gunakan proxy lain atau periksa URL.</p>
+                <button class="btn primary" id="closeErrorBtn">Tutup</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="iframe-container">
+            <iframe id="proxyFrame" src="about:blank" title="Proxy Website"></iframe>
+        </main>
     </div>
 
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-        Memuat website...
-    </div>
-
-    <div class="error" id="error">
-        <h3>Gagal Memuat Website</h3>
-        <p>Website tidak dapat dimuat. Coba gunakan proxy lain atau periksa URL.</p>
-        <button class="btn" onclick="hideError()">Tutup</button>
-    </div>
-
-    <div class="iframe-container">
-        <iframe id="proxyFrame" src="about:blank"></iframe>
-    </div>
-
-    <script>
-        // Service Worker Registration untuk PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('data:application/javascript;base64,Y29uc3QgQ0FDSEVfTkFNRSA9ICdwd2EtcHJveHktdjEnOwpjb25zdCB1cmxzVG9DYWNoZSA9IFsKICAgICcvJwpdOwoKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgZXZlbnQgPT4gewogICAgZXZlbnQud2FpdFVudGlsKAogICAgICAgIGNhY2hlcy5vcGVuKENBQ0hFX05BTUUpCiAgICAgICAgICAgIC50aGVuKGNhY2hlID0+IGNhY2hlLmFkZEFsbCh1cmxzVG9DYWNoZSkpCiAgICApOwp9KTsKCnNlbGYuYWRkRXZlbnRMaXN0ZW5lcignZmV0Y2gnLCBldmVudCA9PiB7CiAgICBldmVudC5yZXNwb25kV2l0aCgKICAgICAgICBjYWNoZXMubWF0Y2goZXZlbnQucmVxdWVzdCkKICAgICAgICAgICAgLnRoZW4ocmVzcG9uc2UgPT4gewogICAgICAgICAgICAgICAgcmV0dXJuIHJlc3BvbnNlIHx8IGZldGNoKGV2ZW50LnJlcXVlc3QpOwogICAgICAgICAgICB9KQogICAgKTsKfSk7')
-                .then(registration => {
-                    console.log('SW registered: ', registration);
-                })
-                .catch(registrationError => {
-                    console.log('SW registration failed: ', registrationError);
-                });
-            });
-        }
-
-        // Proxy endpoints
-        const proxyEndpoints = {
-            allorigins: 'https://api.allorigins.win/raw?url=',
-            corsproxy: 'https://corsproxy.io/?',
-            thingproxy: 'https://thingproxy.freeboard.io/fetch/',
-            crossorigin: 'https://crossorigin.me/'
-        };
-
-        let currentUrl = '';
-        let isFullscreen = false;
-
-        function loadWebsite() {
-            const urlInput = document.getElementById('urlInput');
-            const proxySelect = document.getElementById('proxySelect');
-            const frame = document.getElementById('proxyFrame');
-            const loading = document.getElementById('loading');
-            const error = document.getElementById('error');
-            
-            let url = urlInput.value.trim();
-            
-            if (!url) {
-                alert('Masukkan URL terlebih dahulu');
-                return;
-            }
-            
-            // Add https if no protocol specified
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                url = 'https://' + url;
-            }
-            
-            currentUrl = url;
-            const selectedProxy = proxySelect.value;
-            const proxyUrl = proxyEndpoints[selectedProxy] + encodeURIComponent(url);
-            
-            // Show loading
-            loading.style.display = 'block';
-            error.style.display = 'none';
-            
-            // Load with proxy
-            frame.src = proxyUrl;
-            
-            // Handle load events
-            frame.onload = function() {
-                loading.style.display = 'none';
-                
-                // Try to modify iframe content for better integration
-                try {
-                    const iframeDoc = frame.contentDocument || frame.contentWindow.document;
-                    
-                    // Inject CSS to hide scrollbars and adjust styling
-                    const style = iframeDoc.createElement('style');
-                    style.textContent = `
-                        body { 
-                            margin: 0 !important; 
-                            padding: 0 !important;
-                            overflow-x: hidden !important;
-                        }
-                        html { 
-                            overflow-x: hidden !important;
-                        }
-                    `;
-                    iframeDoc.head.appendChild(style);
-                    
-                } catch (e) {
-                    // Cross-origin restrictions - this is expected
-                    console.log('Cannot modify iframe content due to CORS');
-                }
-            };
-            
-            frame.onerror = function() {
-                loading.style.display = 'none';
-                error.style.display = 'block';
-            };
-            
-            // Timeout for loading
-            setTimeout(() => {
-                if (loading.style.display === 'block') {
-                    loading.style.display = 'none';
-                }
-            }, 10000);
-        }
-
-        function refreshFrame() {
-            if (currentUrl) {
-                loadWebsite();
-            }
-        }
-
-        function toggleFullscreen() {
-            const controls = document.querySelector('.controls');
-            const container = document.querySelector('.iframe-container');
-            
-            if (!isFullscreen) {
-                controls.style.display = 'none';
-                container.style.top = '0';
-                isFullscreen = true;
-                
-                // Try to enter browser fullscreen
-                if (document.documentElement.requestFullscreen) {
-                    document.documentElement.requestFullscreen();
-                }
-            } else {
-                controls.style.display = 'flex';
-                container.style.top = '60px';
-                isFullscreen = false;
-                
-                // Exit browser fullscreen
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
-            }
-        }
-
-        function hideError() {
-            document.getElementById('error').style.display = 'none';
-        }
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && e.target.id === 'urlInput') {
-                loadWebsite();
-            }
-            if (e.key === 'F11') {
-                e.preventDefault();
-                toggleFullscreen();
-            }
-            if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
-                e.preventDefault();
-                refreshFrame();
-            }
-        });
-
-        // Handle back/forward navigation
-        window.addEventListener('popstate', function(e) {
-            if (e.state && e.state.url) {
-                document.getElementById('urlInput').value = e.state.url;
-                loadWebsite();
-            }
-        });
-
-        // Auto-focus URL input on load
-        window.addEventListener('load', function() {
-            document.getElementById('urlInput').focus();
-        });
-
-        // Prevent iframe from navigating parent window
-        window.addEventListener('message', function(e) {
-            if (e.data && e.data.type === 'navigation') {
-                e.preventDefault();
-                return false;
-            }
-        });
-
-        // Demo URLs for testing
-        const demoUrls = [
-            'https://example.com',
-            'https://httpbin.org/html',
-            'https://jsonplaceholder.typicode.com'
-        ];
-
-        // Add demo button
-        function addDemoButton() {
-            const controls = document.querySelector('.controls');
-            const demoBtn = document.createElement('button');
-            demoBtn.className = 'btn secondary';
-            demoBtn.textContent = 'Demo';
-            demoBtn.onclick = function() {
-                const randomUrl = demoUrls[Math.floor(Math.random() * demoUrls.length)];
-                document.getElementById('urlInput').value = randomUrl;
-                loadWebsite();
-            };
-            controls.appendChild(demoBtn);
-        }
-
-        // Initialize demo button
-        addDemoButton();
-    </script>
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/proxy.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
